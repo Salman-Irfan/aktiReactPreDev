@@ -80,11 +80,26 @@ const Navbar = () => {
                             ) : (
                                 // If authtoken doesn't exist, display the Login and Register buttons
                                 <>
+                                    {/* adminLogin */}
                                     <li>
                                         <Link
                                             className={`nav-link ${location.pathname === "/login"
-                                                    ? "active"
-                                                    : ""
+                                                ? "active"
+                                                : ""
+                                                }`}
+                                                to="/admin-login"
+                                        >
+                                            <button className="me-2 btn btn-warning">
+                                                Admin Login
+                                            </button>
+                                        </Link>
+                                    </li>
+                                    {/* login */}
+                                    <li>
+                                        <Link
+                                            className={`nav-link ${location.pathname === "/login"
+                                                ? "active"
+                                                : ""
                                                 }`}
                                             to="/login"
                                         >
@@ -93,11 +108,12 @@ const Navbar = () => {
                                             </button>
                                         </Link>
                                     </li>
+                                    {/* register */}
                                     <li>
                                         <Link
                                             className={`nav-link ${location.pathname === "/register"
-                                                    ? "active"
-                                                    : ""
+                                                ? "active"
+                                                : ""
                                                 }`}
                                             to="/register"
                                         >

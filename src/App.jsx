@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import UpdateNote from "./pages/UpdateNote";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
+import AdminLogin from "./pages/auth/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 function App() {
 
   return (
@@ -32,7 +34,9 @@ function App() {
         {/* auth routes */}
         <Route path="/register" element={<Register/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route/>
+        <Route path="/admin-login" element={<AdminLogin/>}/>
+        {/* admin dashboard */}
+        <Route path="/admin-dashboard" element={<AdminDashboard /> }/>
       </Routes>
       {/* footer component */}
       <Footer />
