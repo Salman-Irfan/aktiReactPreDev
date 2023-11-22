@@ -30,24 +30,14 @@ const Notes = () => {
     const handleDeleteNote = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this note?");
         if (confirmDelete) {
-            // deleteNoteByIdApi(id)
-            //     .then(() => {
-            //         // After successful deletion, remove the note from the state
-            //         setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
-            //     })
-            //     .catch((error) => {
-            //         console.error("Error deleting note:", error);
-            //     });
-            const response = await axios.delete(`${BASE_URL}/notes/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            if (response.data.Success) {
+            const response = await deleteNoteByIdApi(id, token)
+            console.log(response)
+            
+            if (response.Success) {
                 setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
             }
-            if (response.data.error) {
-                alert(response.data.error);
+            if (response.error) {
+                alert(response.error);
             }
         }
     };
@@ -66,31 +56,12 @@ const Notes = () => {
     // function to save updated note
     const handleSaveUpdatedNote = async (updatedNote) => {
         // Handle saving the updated note
-        
-        // integrate this api
-        // make axios.put request to the specified url
         setIsEditing(false);
         setEditedNote(null);
-        // ################################
         // Handle saving the updated note
-        const url = `http://localhost:8000/api/v1/notes/${updatedNote._id}`; // Replace with your API endpoint
-
-        const response = await axios.put(url, updatedNote, {
-            headers: {
-
-                Authorization: `Bearer ${token}`,
-            }
-        })
-        console.log(response)
+        const response = await updateNoteByIdApiService(updatedNote._id, updatedNote, token);
         setIsEditing(false);
         setEditedNote(null);
-        
-
-
-        // const response = await updateNoteByIdApiService(updatedNote._id, updatedNote, token);
-        // console.log(response)
-        // setIsEditing(false);
-        // setEditedNote(null);
     };
 
     // function to cancel edit modal

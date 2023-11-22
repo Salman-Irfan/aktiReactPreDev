@@ -76,8 +76,11 @@ const UpdateNote = () => {
         };
 
         try {
-            const response = updateNoteByIdApiService(noteId, updatedNoteData, token);
-            console.log(response)
+            const response = await updateNoteByIdApiService(noteId, updatedNoteData, token);
+            
+            if (response.error) {
+                alert(response.error);
+            }
         } catch (error) {
             // Handle any errors that occur during the request
             console.error("An error occurred:", error);

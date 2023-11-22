@@ -3,9 +3,13 @@ import BASE_URL from "../../../constants/baseUrl";
 
 const deleteNoteByIdEndpoint = "/notes";
 
-const deleteNoteByIdApi = async (id) => {
+const deleteNoteByIdApi = async (id, token) => {
     try {
-        const response = await axios.delete(`${BASE_URL}${deleteNoteByIdEndpoint}/${id}`);
+        const response = await axios.delete(`${BASE_URL}${deleteNoteByIdEndpoint}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data
     } catch (error) {
         console.log(error);
