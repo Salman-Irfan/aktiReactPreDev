@@ -3,9 +3,13 @@ import BASE_URL from "../../../constants/baseUrl";
 
 const updateNoteApiEndPoint = "/notes";
 
-const updateNoteByIdApiService = async (id, updateNoteFormData) => {
+const updateNoteByIdApiService = async (id, updateNoteFormData, token) => {
     try {
-        const response = await axios.put(`${BASE_URL}${updateNoteApiEndPoint}/${id}`, updateNoteFormData);
+        const response = await axios.put(`${BASE_URL}${updateNoteApiEndPoint}/${id}`, updateNoteFormData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data
     } catch (error) {
         console.log(error.message);

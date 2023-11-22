@@ -12,6 +12,14 @@ const UpdateNote = () => {
         newTag: ""
     });
 
+    const [token, setToken] = useState('');
+    // fetch auth token
+    useEffect(() => {
+        const authToken = (localStorage.getItem('authtoken'))
+        setToken(authToken);
+    }, [])
+
+
     useEffect(() => {
         // Fetch the note details for the given noteId and populate the fields
         fetchNoteDetails(noteId);
@@ -68,7 +76,7 @@ const UpdateNote = () => {
         };
 
         try {
-            const response = updateNoteByIdApiService(noteId, updatedNoteData);
+            const response = updateNoteByIdApiService(noteId, updatedNoteData, token);
             console.log(response)
         } catch (error) {
             // Handle any errors that occur during the request

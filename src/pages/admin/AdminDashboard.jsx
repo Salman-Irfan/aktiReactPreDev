@@ -5,15 +5,17 @@ import { useNavigate } from 'react-router-dom';
 const AdminDashboard = () => {
     const navigate = useNavigate();
     const [authToken, setAuthToken] = useState("");
+    const [role, setRole] = useState("");
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem("authtoken");
-        if (!token) {
+        const role = localStorage.getItem("role");
+        if (!token && role !== 'admin') {
             navigate('/login');
         } else {
             setAuthToken(token);
-
+            setRole(role);
             // Make Axios GET request
             axios.get('http://localhost:8000/api/v1/users', {
                 headers: {

@@ -5,11 +5,18 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import deleteNoteByIdApi from "../services/apiIntegrations/noteApis/deleteNoteById";
 import updateNoteByIdApiService from "../services/apiIntegrations/noteApis/updateNoteByIdApi";
+import BASE_URL from "../constants/baseUrl";
 
 const Notes = () => {
     const [notes, setNotes] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editedNote, setEditedNote] = useState(null);
+    const [token, setToken] = useState('');
+    // fetch auth token
+    useEffect(() => {
+        const authToken = (localStorage.getItem('authtoken'))
+        setToken(authToken);
+    }, [])
 
     useEffect(() => {
         // Call the service to fetch the data
@@ -20,17 +27,28 @@ const Notes = () => {
     }, []);
 
     // Function to handle note deletion with confirmation dialog
-    const handleDeleteNote = (id) => {
+    const handleDeleteNote = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this note?");
         if (confirmDelete) {
-            deleteNoteByIdApi(id)
-                .then(() => {
-                    // After successful deletion, remove the note from the state
-                    setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
-                })
-                .catch((error) => {
-                    console.error("Error deleting note:", error);
-                });
+            // deleteNoteByIdApi(id)
+            //     .then(() => {
+            //         // After successful deletion, remove the note from the state
+            //         setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
+            //     })
+            //     .catch((error) => {
+            //         console.error("Error deleting note:", error);
+            //     });
+            const response = await axios.delete(`${BASE_URL}/notes/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if (response.data.Success) {
+                setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
+            }
+            if (response.data.error) {
+                alert(response.data.error);
+            }
         }
     };
 
@@ -46,33 +64,33 @@ const Notes = () => {
     }, [isEditing]);
 
     // function to save updated note
-    const handleSaveUpdatedNote = (updatedNote) => {
+    const handleSaveUpdatedNote = async (updatedNote) => {
         // Handle saving the updated note
-        // console.log(updatedNote._id)
-        // console.log("Save note:", updatedNote);
+        
         // integrate this api
         // make axios.put request to the specified url
-        // setIsEditing(false);
-        // setEditedNote(null);
-        // ################################
-        // Handle saving the updated note
-        // const url = `http://localhost:8000/api/v1/notes/${updatedNote._id}`; // Replace with your API endpoint
-
-        // axios
-        //     .put(url, updatedNote) // Send a PUT request to update the note
-        //     .then((response) => {
-        //         console.log("Note updated successfully");
-        //         // You can handle any success behavior here, e.g., show a success message
-        //         setIsEditing(false);
-        //         setEditedNote(null);
-        //     })
-        //     .catch((error) => {
-        //         console.error("Error updating note:", error);
-        //         // Handle errors, e.g., show an error message
-        //     });
-        const response = updateNoteByIdApiService(updatedNote._id, updatedNote);
         setIsEditing(false);
         setEditedNote(null);
+        // ################################
+        // Handle saving the updated note
+        const url = `http://localhost:8000/api/v1/notes/${updatedNote._id}`; // Replace with your API endpoint
+
+        const response = await axios.put(url, updatedNote, {
+            headers: {
+
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        console.log(response)
+        setIsEditing(false);
+        setEditedNote(null);
+        
+
+
+        // const response = await updateNoteByIdApiService(updatedNote._id, updatedNote, token);
+        // console.log(response)
+        // setIsEditing(false);
+        // setEditedNote(null);
     };
 
     // function to cancel edit modal
@@ -127,9 +145,9 @@ const Notes = () => {
                                     <strong>Email:</strong> {note.userId.email}
                                 </p>
                                 <p className="card-text">
-                                    <strong>Profile Image:</strong> 
-                                    <img src={note.userId.profileImage} width={100} alt="" srcset="" />
-                                    
+                                    <strong>Profile Image:</strong>
+                                    <img src={note.userId.profileImage} width={100} alt="" srcSet="" />
+
                                 </p>
 
                                 {/* update / delete buttons with confirmation dialog */}
