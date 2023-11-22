@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Import Axios
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import updateNoteByIdApiService from "../services/apiIntegrations/noteApis/updateNoteByIdApi";
 
 const UpdateNote = () => {
+    const navigate = useNavigate()
     const { noteId } = useParams();
     const [note, setNote] = useState({
         title: "",
@@ -24,7 +25,6 @@ const UpdateNote = () => {
         // Fetch the note details for the given noteId and populate the fields
         fetchNoteDetails(noteId);
     }, [noteId]);
-    console.log(noteId) // undefined
 
     const fetchNoteDetails = (noteId) => {
         // Make an API request to get note details
@@ -80,6 +80,9 @@ const UpdateNote = () => {
             
             if (response.error) {
                 alert(response.error);
+            }else{
+                alert('note updated successfully')
+                navigate('/notes')
             }
         } catch (error) {
             // Handle any errors that occur during the request
