@@ -1,7 +1,8 @@
 import axios from "axios";
 import BASE_URL from "../../../constants/baseUrl";
+import endPoints from "../../../constants/endPoints/endPoints";
 
-const getAllNotesEndpoint = "/notes";
+const getAllNotesEndpoint = endPoints.GET_ALL_NOTES;
 
 const getAllNotesApiService = async() => {
     try {

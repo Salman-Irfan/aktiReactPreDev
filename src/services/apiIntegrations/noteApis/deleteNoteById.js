@@ -1,7 +1,8 @@
 import axios from "axios";
 import BASE_URL from "../../../constants/baseUrl";
+import endPoints from "../../../constants/endPoints/endPoints";
 
-const deleteNoteByIdEndpoint = "/notes";
+const deleteNoteByIdEndpoint = endPoints.DELETE_NOTE;
 
 const deleteNoteByIdApi = async (id, token) => {
     try {

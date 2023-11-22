@@ -1,7 +1,8 @@
 import axios from "axios";
 import BASE_URL from "../../../constants/baseUrl";
+import endPoints from "../../../constants/endPoints/endPoints";
 
-const updateNoteApiEndPoint = "/notes";
+const updateNoteApiEndPoint = endPoints.UPDATE_NOTE;
 
 const updateNoteByIdApiService = async (id, updateNoteFormData, token) => {
     try {

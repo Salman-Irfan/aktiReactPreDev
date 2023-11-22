@@ -31,8 +31,7 @@ const Notes = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this note?");
         if (confirmDelete) {
             const response = await deleteNoteByIdApi(id, token)
-            console.log(response)
-            
+            // if note deleted, update the UI
             if (response.Success) {
                 setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
             }
