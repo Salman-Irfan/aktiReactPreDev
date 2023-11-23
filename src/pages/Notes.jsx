@@ -42,7 +42,7 @@ const Notes = () => {
     // update page
     const navigate = useNavigate();
     const handleUpdateNotePage = (id) => {
-        navigate(`/notes/update/${id}`);
+        navigate(`/notes/update/${id}`, { state: { from: '/notes' } });
     };
     return (
         // edit modal

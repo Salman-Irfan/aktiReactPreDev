@@ -38,7 +38,7 @@ const MyNotes = () => {
     };
     // update function
     const handleUpdateNotePage = (id) => {
-        navigate(`/notes/update/${id}`);
+        navigate(`/notes/update/${id}`, { state: { from: '/my-notes' } });
     };
     return (
         // edit modal

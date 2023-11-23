@@ -83,7 +83,6 @@ const UpdateNote = () => {
             if (response.error) {
                 alert(response.error);
             }else{
-                console.log(location) // here see above consoled values
                 alert('note updated successfully')
                 navigate(location.state?.from || '/notes'); 
             }
