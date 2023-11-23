@@ -1,12 +1,10 @@
 import axios from "axios";
 import BASE_URL from "../../../constants/baseUrl";
-import endPoints from "../../../constants/endPoints/endPoints";
 
-const deleteNoteByIdEndpoint = endPoints.DELETE_NOTE;
 
-const deleteNoteByIdApi = async (id, token) => {
+const deleteNoteByIdApi = async (id, endPoint, token) => {
     try {
-        const response = await axios.delete(`${BASE_URL}${deleteNoteByIdEndpoint}/${id}`, {
+        const response = await axios.delete(`${BASE_URL}${endPoint}/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

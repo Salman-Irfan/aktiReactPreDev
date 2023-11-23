@@ -1,12 +1,10 @@
 import axios from "axios";
 import BASE_URL from "../../../constants/baseUrl";
-import endPoints from "../../../constants/endPoints/endPoints";
 
-const updateNoteApiEndPoint = endPoints.UPDATE_NOTE;
 
-const updateNoteByIdApiService = async (id, updateNoteFormData, token) => {
+const updateNoteByIdApiService = async (id, updateNoteFormData, endPoint, token) => {
     try {
-        const response = await axios.put(`${BASE_URL}${updateNoteApiEndPoint}/${id}`, updateNoteFormData, {
+        const response = await axios.put(`${BASE_URL}${endPoint}/${id}`, updateNoteFormData, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

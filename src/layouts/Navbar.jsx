@@ -58,8 +58,8 @@ const Navbar = () => {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} to="/about">
-                                    About Us
+                                <Link className={`nav-link ${location.pathname === "/my-notes" ? "active" : ""}`} to="/my-notes">
+                                    My Notes
                                 </Link>
                             </li>
                             <li className="nav-item">

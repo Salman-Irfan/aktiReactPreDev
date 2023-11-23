@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Import Axios
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import updateNoteByIdApiService from "../services/apiIntegrations/noteApis/updateNoteByIdApi";
+import endPoints from "../constants/endPoints/endPoints";
 
 const UpdateNote = () => {
     const navigate = useNavigate()
+    const location = useLocation();
     const { noteId } = useParams();
     const [note, setNote] = useState({
         title: "",
@@ -76,13 +78,14 @@ const UpdateNote = () => {
         };
 
         try {
-            const response = await updateNoteByIdApiService(noteId, updatedNoteData, token);
+            const response = await updateNoteByIdApiService(noteId, updatedNoteData, endPoints.UPDATE_NOTE, token);
             
             if (response.error) {
                 alert(response.error);
             }else{
+                console.log(location) // here see above consoled values
                 alert('note updated successfully')
-                navigate('/notes')
+                navigate(location.state?.from || '/notes'); 
             }
         } catch (error) {
             // Handle any errors that occur during the request

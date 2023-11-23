@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import getAllNotesApiService from "../services/apiIntegrations/noteApis/getAllNotesApi";
-import EditNote from "../views/EditNote";
+
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import deleteNoteByIdApi from "../services/apiIntegrations/noteApis/deleteNoteById";
-import updateNoteByIdApiService from "../services/apiIntegrations/noteApis/updateNoteByIdApi";
-import BASE_URL from "../constants/baseUrl";
+import endPoints from "../constants/endPoints/endPoints";
 
 const Notes = () => {
     const [notes, setNotes] = useState([]);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedNote, setEditedNote] = useState(null);
     const [token, setToken] = useState('');
     // fetch auth token
     useEffect(() => {
@@ -20,7 +17,7 @@ const Notes = () => {
 
     useEffect(() => {
         // Call the service to fetch the data
-        getAllNotesApiService()
+        getAllNotesApiService(endPoints.GET_ALL_NOTES)
             .then((data) => {
                 setNotes(data);
             })
@@ -30,7 +27,7 @@ const Notes = () => {
     const handleDeleteNote = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this note?");
         if (confirmDelete) {
-            const response = await deleteNoteByIdApi(id, token)
+            const response = await deleteNoteByIdApi(id, endPoints.DELETE_NOTE ,token)
             // if note deleted, update the UI
             if (response.Success) {
                 setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
@@ -41,33 +38,6 @@ const Notes = () => {
         }
     };
 
-    // Function to handle edit button click
-    const handleEditNoteModal = (note) => {
-        setEditedNote(note);
-        setIsEditing(true);
-    };
-
-    // Log updated value of isEditing when it changes
-    useEffect(() => {
-        // Your logic here
-    }, [isEditing]);
-
-    // function to save updated note
-    const handleSaveUpdatedNote = async (updatedNote) => {
-        // Handle saving the updated note
-        setIsEditing(false);
-        setEditedNote(null);
-        // Handle saving the updated note
-        const response = await updateNoteByIdApiService(updatedNote._id, updatedNote, token);
-        setIsEditing(false);
-        setEditedNote(null);
-    };
-
-    // function to cancel edit modal
-    const handleCancelEditModal = () => {
-        setIsEditing(false);
-        setEditedNote(null);
-    }
 
     // update page
     const navigate = useNavigate();
@@ -78,13 +48,7 @@ const Notes = () => {
         // edit modal
         <div className="container">
             <h1>Notes</h1>
-            {isEditing && (
-                <EditNote
-                    note={editedNote}
-                    onSave={handleSaveUpdatedNote}
-                    onCancel={handleCancelEditModal}
-                />
-            )}
+
 
             {/* all notes */}
             <div className="row">
@@ -106,7 +70,7 @@ const Notes = () => {
                                     ))}
                                 </ul>
 
-                                {/* Display user's details (firstName and email) */}
+                                {/* Display user's details (firstName, email and profilePicture) */}
                                 <h5 className="card-title">User Details</h5>
                                 <p className="card-text">
                                     <strong>Name:</strong> {note.userId.firstName}
@@ -120,15 +84,8 @@ const Notes = () => {
 
                                 </p>
 
-                                {/* update / delete buttons with confirmation dialog */}
+                                {/* update / delete buttons  */}
                                 <div className="d-flex justify-content-center">
-                                    {/* first integrate this api */}
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => handleEditNoteModal(note)} // Pass the note to handleEditNote
-                                    >
-                                        Update
-                                    </button>
                                     <button
                                         className="btn btn-danger"
                                         onClick={() => handleDeleteNote(note._id)}
@@ -136,10 +93,10 @@ const Notes = () => {
                                         Delete
                                     </button>
                                     <button
-                                        className="btn btn-secondary"
+                                        className="btn btn-success mx-4"
                                         onClick={() => handleUpdateNotePage(note._id)}
                                     >
-                                        Update in a separate page
+                                        Update
                                     </button>
                                 </div>
                             </div>

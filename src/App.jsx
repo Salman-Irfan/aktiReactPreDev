@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Footer from './layouts/Footer'
 import Navbar from './layouts/Navbar'
 import AddNote from './pages/AddNote'
-import About from './pages/About'
+import MyNotes from './pages/MyNotes'
 import Contact from './pages/Contact'
 import Notes from './pages/Notes'
 import Home from "./pages/Home";
@@ -25,8 +25,8 @@ function App() {
         <Route exact path="/addnote" element={<AddNote />} />
         {/* get notes page */}
         <Route exact path="/notes" element={<Notes />} />
-        {/* about page */}
-        <Route exact path="/about" element={<About />} />
+        {/* MyNotes page */}
+        <Route exact path="/my-notes" element={<MyNotes />} />
         {/* contact page */}
         <Route exact path="/contact" element={<Contact />} />
         {/* dynamic update note */}
