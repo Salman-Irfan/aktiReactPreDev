@@ -45,60 +45,57 @@ const Notes = () => {
         navigate(`/notes/update/${id}`, { state: { from: '/notes' } });
     };
     return (
-        // edit modal
         <div className="container">
-            <h1>Notes</h1>
-
-
+            <h1 className="text-center mb-4">Notes</h1>
             {/* all notes */}
             <div className="row">
                 {notes.map((note) => (
                     <div key={note._id} className="col-md-4">
-                        <div className="card mb-4">
+                        <div className="card">
                             <div className="card-body">
-                                <div className="card-title bg-primary text-white text-center">
-                                    <p className="card-text">{note.title}</p>
+                                <div className="card-header bg-primary text-white text-center">
+                                    <div className="d-flex">
+                                        <img
+                                            src={note.userId.profileImage}
+                                            className="img-fluid rounded-circle mt-2"
+                                            alt="userProfileImage"
+                                            width={80}
+                                        />
+                                        <p className="mt-3 mx-4">{note.userId.firstName}</p>
+                                    </div>
+                                    <p className="text-warning">{note.userId.email}</p>
+                                    <h5 className="card-title m-0 bg-secondary py-2">Title: {note.title}</h5>
                                 </div>
 
-                                <h5 className="card-title">Description</h5>
-                                <p className="card-text">{note.description}</p>
+                                <div className="card-body bg-warning">
+                                    <hr className="my-3" />
 
-                                <h5 className="card-title">Tags</h5>
-                                <ul className="list-unstyled">
-                                    {note.tags.map((tag) => (
-                                        <li key={tag}>{tag}</li>
-                                    ))}
-                                </ul>
+                                    <h6 className="card-subtitle mb-2 text-muted">Description</h6>
+                                    <p className="card-text">{note.description}</p>
 
-                                {/* Display user's details (firstName, email and profilePicture) */}
-                                <h5 className="card-title">User Details</h5>
-                                <p className="card-text">
-                                    <strong>Name:</strong> {note.userId.firstName}
-                                </p>
-                                <p className="card-text">
-                                    <strong>Email:</strong> {note.userId.email}
-                                </p>
-                                <p className="card-text">
-                                    <strong>Profile Image:</strong>
-                                    <img src={note.userId.profileImage} width={100} alt="" srcSet="" />
+                                    <h6 className="card-subtitle mb-2 text-muted">Tags</h6>
+                                    <ul className="list-unstyled">
+                                        {note.tags.map((tag) => (
+                                            <li key={tag} className="badge badge-info mr-2 text-dark">{tag}</li>
+                                        ))}
+                                    </ul>
 
-                                </p>
-
-                                {/* update / delete buttons  */}
-                                <div className="d-flex justify-content-center">
-                                    <button
-                                        className="btn btn-danger"
-                                        onClick={() => handleDeleteNote(note._id)}
-                                    >
-                                        Delete
-                                    </button>
-                                    <button
-                                        className="btn btn-success mx-4"
-                                        onClick={() => handleUpdateNotePage(note._id)}
-                                    >
-                                        Update
-                                    </button>
+                                    <div className="d-flex justify-content-center">
+                                        <button
+                                            className="btn btn-danger mx-2"
+                                            onClick={() => handleDeleteNote(note._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                        <button
+                                            className="btn btn-success mx-2"
+                                            onClick={() => handleUpdateNotePage(note._id)}
+                                        >
+                                            Update
+                                        </button>
+                                    </div>
                                 </div>
+
                             </div>
                             <div className="card-footer text-muted">
                                 Date: {new Date(note.date).toDateString()}
@@ -109,6 +106,7 @@ const Notes = () => {
             </div>
         </div>
     );
+
 };
 
 export default Notes;

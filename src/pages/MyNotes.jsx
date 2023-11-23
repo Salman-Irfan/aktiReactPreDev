@@ -41,73 +41,72 @@ const MyNotes = () => {
         navigate(`/notes/update/${id}`, { state: { from: '/my-notes' } });
     };
     return (
-        // edit modal
         <div className="container">
-            <h1>My Notes</h1>
+            <h1 className="text-center mb-4">My Notes</h1>
 
-            {/* all notes */}
             <div className="row">
-                
                 {Array.isArray(notes) && notes.length > 0 ? (
                     notes.map((note) => (
-                        <div key={note._id} className="col-md-4">
-                            <div className="card mb-4">
-                                <div className="card-body">
-                                    <div className="card-title bg-primary text-white text-center">
-                                        <p className="card-text">{note.title}</p>
+                        <div key={note._id} className="col-md-4 mb-4">
+                            <div className="card">
+                                <div className="card-header bg-primary text-white text-center">
+                                    <div className="d-flex">
+                                        <img
+                                            src={note.userId.profileImage}
+                                            className="img-fluid rounded-circle mt-2"
+                                            alt="userProfileImage"
+                                            width={80}
+                                        />
+                                        <p className="mt-3 mx-4">{note.userId.firstName}</p>
                                     </div>
+                                    <p className="text-warning">{note.userId.email}</p>
+                                    <h5 className="card-title m-0 bg-secondary py-2">Title: {note.title}</h5>
+                                </div>
 
-                                    <h5 className="card-title">Description</h5>
+                                <div className="card-body bg-warning">
+                                    <hr className="my-3" />
+
+                                    <h6 className="card-subtitle mb-2 text-muted">Description</h6>
                                     <p className="card-text">{note.description}</p>
 
-                                    <h5 className="card-title">Tags</h5>
+                                    <h6 className="card-subtitle mb-2 text-muted">Tags</h6>
                                     <ul className="list-unstyled">
                                         {note.tags.map((tag) => (
-                                            <li key={tag}>{tag}</li>
+                                            <li key={tag} className="badge badge-info mr-2 text-dark">{tag}</li>
                                         ))}
                                     </ul>
 
-                                    {/* Display user's details (firstName and email) */}
-                                    <h5 className="card-title">User Details</h5>
-                                    <p className="card-text">
-                                        <strong>Name:</strong> {note.userId.firstName}
-                                    </p>
-                                    <p className="card-text">
-                                        <strong>Email:</strong> {note.userId.email}
-                                    </p>
-                                    <p className="card-text">
-                                        <strong>Profile Image:</strong>
-                                        <img src={note.userId.profileImage} width={100} alt="" srcSet="" />
-                                    </p>
-
-                                    {/* update / delete buttons  */}
                                     <div className="d-flex justify-content-center">
-                                        <button 
-                                            className="btn btn-danger" 
+                                        <button
+                                            className="btn btn-danger mx-2"
                                             onClick={() => handleDeleteNote(note._id)}
                                         >
                                             Delete
                                         </button>
-                                        <button 
-                                            className="btn btn-success mx-4"
+                                        <button
+                                            className="btn btn-success mx-2"
                                             onClick={() => handleUpdateNotePage(note._id)}
                                         >
                                             Update
                                         </button>
                                     </div>
                                 </div>
-                                <div className="card-footer text-muted">
+
+                                <div className="card-footer text-muted text-center">
                                     Date: {new Date(note.date).toDateString()}
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p>No notes available.</p>
+                    <p className="text-center">No notes available.</p>
                 )}
             </div>
         </div>
     );
+
+
+
 
 };
 
