@@ -1,19 +1,24 @@
 import React, { useEffect } from "react";
-
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
+// import { setAuthToken, removeAuthToken } from '../store/slices/authTokenSlice';
+import { setAuthToken, removeAuthToken } from '../store/slices/authTokenSlice';
 
 const Navbar = () => {
+    const authToken = useSelector((state) => state.authToken.authToken);
+    const dispatch = useDispatch();
     // use location
     let location = useLocation();
     // dynamic navigation menu item highlighting
     // useEffect(() => {
     // }, [location]);
-    const authToken = localStorage.getItem("authtoken");
+    // const authToken = localStorage.getItem("authtoken");
 
     const handleLogout = () => {
         // Clear the "authtoken" from local storage
-        localStorage.removeItem("authtoken");
-        window.location.reload();
+        // localStorage.removeItem("authtoken");
+        // window.location.reload();
+        dispatch(removeAuthToken())
     };
     return (
         <>
