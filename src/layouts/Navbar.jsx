@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
 // import { setAuthToken, removeAuthToken } from '../store/slices/authTokenSlice';
 import { setAuthToken, removeAuthToken } from '../store/slices/authTokenSlice';
+import { useState } from "react";
 
 const Navbar = () => {
-    const authToken = useSelector((state) => state.authToken.authToken);
+    let authToken = useSelector((state) => state.authToken.authToken);
+
     const dispatch = useDispatch();
     // use location
     let location = useLocation();

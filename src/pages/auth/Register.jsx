@@ -174,7 +174,7 @@ const Register = () => {
             // Handle the response
             console.log('Response:', response.data); // Log the response data
             if(response.data){
-                alert("user registered successfully")
+                alert("user registered successfully \n Please verify your email to login")
                 // useNavigate hook from react-router-dom to redirect it login page
                 navigate('/login')
             }

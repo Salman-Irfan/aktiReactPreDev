@@ -2,12 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import BASE_URL from '../../constants/baseUrl';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuthToken } from '../../store/slices/authTokenSlice';
 
 const AdminLogin = () => {
+    const authToken = useSelector((state) => state.authToken.authToken);
+    const dispatch = useDispatch();
     const navigate = useNavigate()
     useEffect(() => {
-        // Check if authtoken exists in local storage
-        const authToken = localStorage.getItem('authtoken');
         if (authToken) {
             navigate('/');
         }
@@ -34,9 +36,14 @@ const AdminLogin = () => {
             email: email,
             password: password
         })
+        
         if (response.data.authtoken) {
             // save it in browser local storage
             localStorage.setItem('authtoken', response.data.authtoken)
+            const storedAuthToken = localStorage.getItem('authtoken');
+            if (storedAuthToken) {
+                dispatch(setAuthToken(storedAuthToken));
+            }
             localStorage.setItem('role', response.data.user.role)
             // navigate to / page
             navigate('/admin-dashboard')

@@ -2,12 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import BASE_URL from '../../constants/baseUrl';
 import { useNavigate } from 'react-router-dom';
+import { setAuthToken, removeAuthToken } from '../../store/slices/authTokenSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Login = () => {
+    const authToken = useSelector((state) => state.authToken.authToken);
+    const dispatch = useDispatch();
     const navigate = useNavigate()
     useEffect(() => {
-        // Check if authtoken exists in local storage
-        const authToken = localStorage.getItem('authtoken');
         if (authToken) {
             navigate('/');
         }
@@ -34,9 +36,19 @@ const Login = () => {
             email: email, 
             password: password
         })
+        // if email not verified, show alert
+        if(response.data.user.verified === false) {
+            alert('Please verify your email')
+            return
+        }
+        // is successful login
         if(response.data.authtoken){
             // save it in browser local storage
             localStorage.setItem('authtoken', response.data.authtoken)
+            const storedAuthToken = localStorage.getItem('authtoken');
+            if (storedAuthToken) {
+                dispatch(setAuthToken(storedAuthToken));
+            }
             // navigate to / page
             navigate('/')
         }
